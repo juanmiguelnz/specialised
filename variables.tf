@@ -42,3 +42,8 @@ variable "instance_key" {
   type    = string
   default = "miguelstudying-dev-kp"
 }
+
+variable "billing_code" {
+  type        = string
+  description = "(Required) Billing code for resources"
+}
