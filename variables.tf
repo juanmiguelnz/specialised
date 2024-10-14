@@ -3,7 +3,7 @@ variable "environment" {
 }
 
 variable "prefix" {
-  type    = string
+  type = string
 }
 
 variable "cidr_block" {
