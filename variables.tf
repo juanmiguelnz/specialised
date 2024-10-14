@@ -4,7 +4,6 @@ variable "environment" {
 
 variable "prefix" {
   type    = string
-  default = "specialised"
 }
 
 variable "cidr_block" {
