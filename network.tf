@@ -12,10 +12,15 @@ resource "aws_vpc" "spendv" {
   }
 }
 
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+
 resource "aws_subnet" "public_subnets" {
-  count      = var.public_subnets
-  vpc_id     = aws_vpc.spendv.id
-  cidr_block = cidrsubnet(var.cidr_block, 8, count.index)
+  count             = var.public_subnets
+  vpc_id            = aws_vpc.spendv.id
+  cidr_block        = cidrsubnet(var.cidr_block, 8, count.index)
+  availability_zone = data.aws_availability_zones.available.names[(count.index % length(data.aws_availability_zones.available.names))]
 
   tags = {
     Name = "${local.tags.prefix}-subnet${count.index}"
@@ -23,9 +28,10 @@ resource "aws_subnet" "public_subnets" {
 }
 
 resource "aws_subnet" "private_subnets" {
-  count      = var.create_private_subnets == true ? var.private_subnets : 0
-  vpc_id     = aws_vpc.spendv.id
-  cidr_block = cidrsubnet(var.cidr_block, 8, (count.index + var.private_subnets_newbits))
+  count             = var.create_private_subnets == true ? var.private_subnets : 0
+  vpc_id            = aws_vpc.spendv.id
+  cidr_block        = cidrsubnet(var.cidr_block, 8, (count.index + var.private_subnets_newbits))
+  availability_zone = data.aws_availability_zones.available.names[(count.index % length(data.aws_availability_zones.available.names))]
 
   tags = {
     Name = "${local.tags.prefix}-subnet${(count.index + var.private_subnets_newbits)}"
