@@ -13,7 +13,7 @@ variable "cidr_block" {
 
 variable "public_subnets" {
   type    = number
-  default = 1
+  default = 3
 }
 
 variable "create_private_subnets" {
@@ -23,7 +23,7 @@ variable "create_private_subnets" {
 
 variable "private_subnets" {
   type    = number
-  default = 1
+  default = 3
 }
 
 variable "private_subnets_newbits" {
